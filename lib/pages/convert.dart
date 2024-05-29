@@ -21,7 +21,6 @@ class _ConvertState extends State<Convert> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.all(20),
@@ -29,7 +28,7 @@ class _ConvertState extends State<Convert> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Convert",
+                "Convertir",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -61,6 +60,7 @@ class _ConvertState extends State<Convert> {
                       dropdownMenuEntries: const [
                         DropdownMenuEntry(value: "USD", label: "USD"),
                         DropdownMenuEntry(value: "EUR", label: "EUR"),
+                        DropdownMenuEntry(value: "XOF", label: "XOF"),
                         DropdownMenuEntry(value: "GBP", label: "GBP"),
                         DropdownMenuEntry(value: "JPY", label: "JPY"),
                         DropdownMenuEntry(value: "AUD", label: "AUD"),
@@ -109,6 +109,7 @@ class _ConvertState extends State<Convert> {
                         DropdownMenuEntry(value: "USD", label: "USD"),
                         DropdownMenuEntry(value: "EUR", label: "EUR"),
                         DropdownMenuEntry(value: "GBP", label: "GBP"),
+                        DropdownMenuEntry(value: "XOF", label: "XOF"),
                         DropdownMenuEntry(value: "JPY", label: "JPY"),
                         DropdownMenuEntry(value: "AUD", label: "AUD"),
                         DropdownMenuEntry(value: "CAD", label: "CAD"),

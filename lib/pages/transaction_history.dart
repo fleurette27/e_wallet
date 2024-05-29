@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_payement_app/models/transaction.dart';
 import 'package:mobile_payement_app/services/transactions_service.dart';
 
-class TransactionList extends StatelessWidget {
-  const TransactionList({super.key});
+class TransactionHistory extends StatelessWidget {
+  const TransactionHistory ({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,11 @@ import 'package:mobile_payement_app/constant.dart';
 import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/models/api_response.dart';
 import 'package:mobile_payement_app/models/transaction.dart';
+import 'package:mobile_payement_app/pages/deposit.dart';
 import 'package:mobile_payement_app/pages/sign_up.dart';
+import 'package:mobile_payement_app/pages/transaction_history.dart';
+import 'package:mobile_payement_app/pages/transfert.dart';
+import 'package:mobile_payement_app/pages/withdraw.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 import 'package:mobile_payement_app/services/transactions_service.dart';
 
@@ -47,15 +51,15 @@ class _OverviewState extends State<Overview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Portefeuille'),
-      ),
       body: Stack(
         children: [
           Column(
             children: [
               BalanceContainer(balance: balance),
-              const Expanded(child: TransactionsContainer()),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              const Expanded(
+                child: TransactionsContainer(),
+              ),
             ],
           ),
           Positioned(
@@ -84,7 +88,7 @@ class BalanceContainer extends StatelessWidget {
           : Colors.blue[200],
       child: Center(
         child: Text(
-          balance ?? '0',
+          ' Balance : $balance ',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge!.color,
             fontSize: 50,
@@ -108,21 +112,27 @@ class ButtonRow extends StatelessWidget {
           icon: Icons.add,
           label: 'Dépôt',
           onPressed: () {
-            // Navigate to deposit page
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const Deposit()),
+            );
           },
         ),
         ActionButton(
           icon: Icons.send,
           label: 'Transfert',
           onPressed: () {
-            // Navigate to transfer page
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const Transfer()),
+            );
           },
         ),
         ActionButton(
           icon: Icons.money_off,
           label: 'Retrait',
           onPressed: () {
-            // Navigate to withdraw page
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const Withdrawal()),
+            );
           },
         ),
       ],
@@ -172,6 +182,7 @@ class TransactionsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //  height: MediaQuery.of(context).size.height * 0.5,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark
@@ -197,7 +208,10 @@ class TransactionsContainer extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  // Navigate to full transaction history page
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) => const TransactionHistory()),
+                  );
                 },
                 child: const Text('Voir plus'),
               ),
@@ -224,12 +238,11 @@ class TransactionList extends StatelessWidget {
           return const Center(
               child: Text("Échec du chargement des transactions"));
         } else {
-          List<Transaction> recenteTransactions = (snapshot.data
-                  as List<dynamic>)
+          List<Transaction> transactions = (snapshot.data as List<dynamic>)
               .map((transactionJson) => Transaction.fromJson(transactionJson))
               .toList();
 
-          if (recenteTransactions.isEmpty) {
+          if (transactions.isEmpty) {
             return const Center(
               child: Text(
                 "Aucune transaction trouvée",
@@ -240,9 +253,9 @@ class TransactionList extends StatelessWidget {
             return ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: recenteTransactions.length,
+              itemCount: transactions.length,
               itemBuilder: (context, index) {
-                final transaction = recenteTransactions[index];
+                final transaction = transactions[index];
                 return TransactionCard(
                   accountNumber: transaction.accountNumber,
                   accountName: transaction.title,
@@ -287,6 +300,7 @@ class TransactionCard extends StatelessWidget {
     );
   }
 }
+
 
 // class ApiResponse {
 //   final dynamic data;

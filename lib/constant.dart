@@ -1,4 +1,6 @@
 const String baseURL = 'http://10.0.2.2:8000/api';
+// const String baseURL = 'http://127.0.0.1:8000/api';
+
 
 const String loginURL = '$baseURL/login';
 const String registerURL = '$baseURL/register';
@@ -13,6 +15,7 @@ const String recenteTransactionURL = '$baseURL/recenteTransactions';
 const String depositURL = '$baseURL/depot';
 const String withdrawalURL = '$baseURL/retrait';
 const String transferURL = '$baseURL/transfert';
+const String fedaTransferURL = '$baseURL/feda/depot';
 
 // ----- Errors -----
 const String serverError = 'Erreur du serveur';

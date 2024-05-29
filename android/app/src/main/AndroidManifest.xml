@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="mobile_payement_app"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:name="io.flutter.app.FlutterMultiDexApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="false"
+        android:allowBackup="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"

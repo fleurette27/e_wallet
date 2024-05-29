@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile_payement_app/constant.dart';
 import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/models/api_response.dart';
+import 'package:mobile_payement_app/pages/home.dart';
 import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 
@@ -17,7 +18,35 @@ class Withdrawal extends StatefulWidget {
 class _WithdrawalState extends State<Withdrawal> {
   final TextEditingController _amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String? balance;
+
+ String? balance;
+  Account? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  void getUser() async {
+    ApiResponse response = await getUserDetail();
+    if (response.error == null) {
+      setState(() {
+        user = response.data as Account;
+        balance = user!.balance != null ? user!.balance.toString() : '0';
+      });
+    } else if (response.error == unauthorized) {
+      logout().then((value) => {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                (route) => false)
+          });
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${response.error}')));
+    }
+  }
 
   Future<void> _handleWithdrawal() async {
     if (_formKey.currentState!.validate()) {
@@ -36,7 +65,7 @@ class _WithdrawalState extends State<Withdrawal> {
             backgroundColor: Colors.green, colorText: Colors.white);
 
         // Retour à la page précédente
-        Get.back();
+       Get.off(const HomeScreen()); // Remplacez HomeScreen() par votre page d'accueil      } else {
       } else {
         // Affichage d'un message d'erreur
         String errorMessage = response.error is String ? response.error as String : 'Une erreur est survenue';
@@ -47,37 +76,16 @@ class _WithdrawalState extends State<Withdrawal> {
   }
 
  //avoir les detail sur la balance
-  Account? user;
-
-  @override
-  void initState() {
-    super.initState();
-    getUser();
-  }
-
-  void getUser() async {
-    ApiResponse response = await getUserDetail();
-    if (response.error == null) {
-      setState(() {
-        user = response.data as Account;
-        balance = (user!.balance ?? '') as String?;
-      });
-    } else if (response.error == unauthorized) {
-      logout().then((value) => {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                (route) => false)
-          });
-    } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('${response.error}')));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -240,11 +248,14 @@ class _WithdrawalState extends State<Withdrawal> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: _handleWithdrawal,
-                    style: ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                    child: Text("Retirer",
+                    style: ElevatedButton.styleFrom( shape: const StadiumBorder(),
+                        backgroundColor:
+                            Colors.green, // Couleur d'arrière-plan verte
+                      ),
+                    child: const Text("Retirer",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          color: Colors.white,
                         )),
                   ),
                 ),

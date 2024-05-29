@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  feda
+  flash_api
   smart_auth
 )
 

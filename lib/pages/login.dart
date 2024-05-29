@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:mobile_payement_app/models/Account.dart';
+import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/models/api_response.dart';
 import 'package:mobile_payement_app/pages/home.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mobile_payement_app/theme/color.dart';
+// import 'package:mobile_payement_app/theme/color.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,8 +20,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   bool loading = false;
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   void loginUser() async {
-    ApiResponse response = await login(emailController.text, passwordController.text);
+    ApiResponse response =
+        await login(emailController.text, passwordController.text);
     if (response.error == null) {
       saveAndRedirectToHome(response.data as Account);
     } else {
@@ -29,7 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
         loading = false;
       });
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${response.error}')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${response.error}')));
     }
   }
 
@@ -50,19 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          "Connexion",
-          style: TextStyle(color: white, fontWeight: FontWeight.w600),
-        ),
-        backgroundColor: primary,
-      ),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -173,7 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -183,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: MediaQuery.of(context).size.width * 0.8,
                             height: 50,
                             child: const Center(
-                              child: Text('Se connecter', style: TextStyle(fontSize: 25)),
+                              child: Text('Se connecter',
+                                  style: TextStyle(fontSize: 25)),
                             ),
                           ),
                         ),

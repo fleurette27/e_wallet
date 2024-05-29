@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:mobile_payement_app/constant.dart';
 import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/models/api_response.dart';
+// import 'package:mobile_payement_app/pages/home.dart';
 import 'package:mobile_payement_app/pages/sign_up.dart';
+import 'package:mobile_payement_app/pages/webview_feda.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
-
 class Deposit extends StatefulWidget {
   const Deposit({super.key});
 
@@ -16,41 +17,9 @@ class Deposit extends StatefulWidget {
 class _DepositState extends State<Deposit> {
   final TextEditingController _amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  String? depositUrl;
   String? balance;
-
-
-  Future<void> _handleDeposit() async {
-    if (_formKey.currentState!.validate()) {
-      double amount = double.parse(_amountController.text);
-      ApiResponse response = await makeDeposit(amount);
-
-      if (response.error == null) {
-        // Réinitialisation du champ de saisie
-        setState(() {
-          _amountController.text = "";
-        });
-
-        // Affichage d'un message de succès
-        String successMessage = response.data is String
-            ? response.data as String
-            : 'Dépôt effectué avec succès';
-        Get.snackbar('Succès', successMessage,
-            backgroundColor: Colors.green, colorText: Colors.white);
-
-        // Retour à la page précédente
-        Get.back();
-      } else {
-        // Affichage d'un message d'erreur
-        String errorMessage = response.error is String
-            ? response.error as String
-            : 'Une erreur est survenue';
-        Get.snackbar('Erreur', errorMessage,
-            backgroundColor: Colors.red, colorText: Colors.white);
-      }
-    }
-  }
-
-  //Concernant le detail de la balance
   Account? user;
 
   @override
@@ -64,7 +33,7 @@ class _DepositState extends State<Deposit> {
     if (response.error == null) {
       setState(() {
         user = response.data as Account;
-        balance = (user!.balance ?? '') as String?;
+        balance = user!.balance != null ? user!.balance.toString() : '0';
       });
     } else if (response.error == unauthorized) {
       logout().then((value) => {
@@ -79,9 +48,65 @@ class _DepositState extends State<Deposit> {
     }
   }
 
+   Future<void> _handleDeposit() async {
+    if (_formKey.currentState!.validate()) {
+      double amount = double.parse(_amountController.text);
+      String url = await makeFedaDeposit(amount);
+
+      setState(() {
+        url = url;
+      });
+        Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+            builder: (context) => WebviewFeda(
+                  url: url,
+                )),
+      );
+    }
+  }
+
+//   Future<void> _handleDeposit() async {
+//     if (_formKey.currentState!.validate()) {
+//       double amount = double.parse(_amountController.text);
+//       ApiResponse response = await makeDeposit(amount);
+
+//       if (response.error == null) {
+//         // Réinitialisation du champ de saisie
+//         setState(() {
+//           _amountController.text = "";
+//         });
+
+//         // Affichage d'un message de succès
+//         String successMessage = response.data is String
+//             ? response.data as String
+//             : 'Dépôt effectué avec succès';
+//         Get.snackbar('Succès', successMessage,
+//             backgroundColor: Colors.green, colorText: Colors.white);
+
+//  // Redirection vers la page précédente
+//        Get.off(const HomeScreen()); // Remplacez HomeScreen() par votre page d'accueil      } else {
+//         // Affichage d'un message d'erreur
+//         String errorMessage = response.error is String
+//             ? response.error as String
+//             : 'Une erreur est survenue';
+//         Get.snackbar('Erreur', errorMessage,
+//             backgroundColor: Colors.green, colorText: Colors.white);
+//       }
+//     }
+//   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back_ios_new),
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //   ),),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -119,7 +144,7 @@ class _DepositState extends State<Deposit> {
                                   .textTheme
                                   .bodyLarge!
                                   .color)),
-                      Text("$balance",
+                      Text('$balance',
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -240,19 +265,30 @@ class _DepositState extends State<Deposit> {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _handleDeposit,
-                    style:
-                        ElevatedButton.styleFrom(shape: const StadiumBorder()),
-                    child: Text("Déposer",
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _handleDeposit,
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        backgroundColor:
+                            Colors.green, // Couleur d'arrière-plan verte
+                      ),
+                      child: const Text(
+                        "Déposer",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        )),
-                  ),
-                ),
+                          color: Colors.white, // Couleur du texte blanc
+                        ),
+                      ),
+                    )),
+                  //  if (depositUrl != null)
+                  // Expanded(
+                  //   child: WebView(
+                  //     initialUrl: depositUrl!,
+                  //     javascriptMode: JavascriptMode.unrestricted,
+                  //   ),
+                  // ),
               ],
             ),
           ),

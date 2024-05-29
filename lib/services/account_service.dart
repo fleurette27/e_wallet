@@ -17,7 +17,7 @@ Future<ApiResponse> register(String name, String email, String password,
       'password': password,
       'password_confirmation': password,
       'phoneNumber': phoneNumber,
-      'dob': dob.toString(), 
+      'dob': dob.toString(),
     });
 
     switch (response.statusCode) {
@@ -95,7 +95,7 @@ Future<ApiResponse> getUserDetail() async {
   return apiResponse;
 }
 
-Future<ApiResponse> updateName( String name,int accountId) async {
+Future<ApiResponse> updateName(String name, int accountId) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     String token = await getToken();
@@ -127,7 +127,7 @@ Future<ApiResponse> updateName( String name,int accountId) async {
   return apiResponse;
 }
 
-Future<ApiResponse> updateEmail( String email,int userId) async {
+Future<ApiResponse> updateEmail(String email, int userId) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     String token = await getToken();
@@ -159,7 +159,7 @@ Future<ApiResponse> updateEmail( String email,int userId) async {
   return apiResponse;
 }
 
-Future<ApiResponse> updatePhoneNumber(String phoneNumber,int userId) async {
+Future<ApiResponse> updatePhoneNumber(String phoneNumber, int userId) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     String token = await getToken();
@@ -191,8 +191,8 @@ Future<ApiResponse> updatePhoneNumber(String phoneNumber,int userId) async {
   return apiResponse;
 }
 
-Future<ApiResponse> updatePassword( String currentPassword, String newPassword, 
-String newPasswordConfirmation,int userId) async {
+Future<ApiResponse> updatePassword(String currentPassword, String newPassword,
+    String newPasswordConfirmation, int userId) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     String token = await getToken();
@@ -226,6 +226,23 @@ String newPasswordConfirmation,int userId) async {
   return apiResponse;
 }
 
+ Future<String> makeFedaDeposit(double amount) async {
+      String token = await getToken();
+
+    final response = await http.post(Uri.parse(fedaTransferURL),headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    }, body: {
+      'amount': amount.toString(),
+    });
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      return jsonResponse['url'];
+    } else {
+      throw Exception('Echec');
+    }
+}
 
 Future<ApiResponse> makeDeposit(double amount) async {
   ApiResponse apiResponse = ApiResponse();
@@ -235,8 +252,7 @@ Future<ApiResponse> makeDeposit(double amount) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount': amount,
-      'title': 'Dépôt',
+      'amount':amount.toString(),
     });
 
     // Handle response status code
@@ -267,8 +283,7 @@ Future<ApiResponse> makeWithdrawal(double amount) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount': amount,
-      'title': 'Retrait',
+      'amount':amount.toString(),
     });
 
     // Handle response status code
@@ -299,7 +314,7 @@ Future<ApiResponse> transferMoney(double amount, String recipientEmail) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount': amount,
+      'amount':amount.toString(),
       'recipient_email': recipientEmail,
     });
 
@@ -339,5 +354,4 @@ Future<int> getUserId() async {
 Future<bool> logout() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return await pref.remove('token');
-
 }

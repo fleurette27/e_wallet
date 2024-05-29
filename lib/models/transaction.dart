@@ -20,7 +20,7 @@ class Transaction {
     return Transaction(
       id: json['id'],
       title: json['title'],
-      amount: json['amount'],
+      amount: double.parse(json['amount']),
       date: DateTime.parse(json['date']),
       userName: json['user']['name'],
       accountNumber:json['user']['account_number'],

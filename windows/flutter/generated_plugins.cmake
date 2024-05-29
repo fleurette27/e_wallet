@@ -4,8 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   cloud_firestore
+  feda
   firebase_auth
   firebase_core
+  flash_api
   smart_auth
 )
 

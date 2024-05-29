@@ -1,13 +1,11 @@
-import 'dart:ffi';
 
 class Account {
   int? id;
   String? name;
   String? email;
   String? phoneNumber;
-  Double? balance;
-  DateTime? dateOfBirth;
-  String? password;
+  double? balance;
+  DateTime? dob;
   String? token;
 
   Account({
@@ -16,21 +14,21 @@ class Account {
     this.email,
     this.phoneNumber,
     this.balance,
-    this.dateOfBirth,
-    this.password,
+    this.dob,
     this.token,
   });
 
-  factory Account.fromJson(Map<String, dynamic> json) {
-    return Account(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      balance: json['balance'],
-      dateOfBirth: DateTime.parse(json['dateOfBirth']), // Correction
-      password: json['password'],
-      token: json['token'],
-    );
-  }
+ factory Account.fromJson(Map<String, dynamic> json) {
+  return Account(
+    id: json['user']['id'],
+    name: json['user']['name'] ?? '',
+    email: json['user']['email'] ?? '',
+    phoneNumber: json['user']['phoneNumber'] ?? '', 
+    balance: double.parse(json['user']['balance'] ?? '0.00'), // Convertir en double
+    dob: json['user']['dob'] != null ? DateTime.parse(json['user']['dob']) : null,
+    token: json['token'] ?? '',
+  );
+}
+
+
 }

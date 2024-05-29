@@ -6,7 +6,7 @@ import 'package:mobile_payement_app/pages/login.dart';
 import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 import '../main.dart';
-import '../models/Account.dart';
+import '../models/account.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
