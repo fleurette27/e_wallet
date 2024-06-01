@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_payement_app/pages/login.dart';
 import 'package:mobile_payement_app/pages/sign_otp.dart';
+import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/theme/color.dart';
 
 class Welcome extends StatefulWidget {
@@ -63,7 +65,7 @@ class _WelcomeState extends State<Welcome> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignWithOtp()),
+                              builder: (context) => const LoginScreen()),
                         );
                       },
                       style: OutlinedButton.styleFrom(

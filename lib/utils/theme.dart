@@ -41,18 +41,19 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData(
       brightness: Brightness.dark,
-      primaryColor: const Color(0xFFFF0000),
-      primarySwatch: const MaterialColor(0xFFFF0000, {
-        50: Color(0xFFFFEBEE),
-        100: Color(0xFFFFCDD2),
-        200: Color(0xFFEF9A9A),
-        300: Color(0xFFE57373),
-        400: Color(0xFFEF5350),
-        500: Color(0xFFF44336),
-        600: Color(0xFFE53935),
-        700: Color(0xFFD32F2F),
-        800: Color(0xFFC62828),
-        900: Color(0xFFB71C1C),
+      primaryColor: const Color(0xFF0000FF),
+      primarySwatch: const MaterialColor(0xFF0000FF, {
+        50: Color(0xFFE3F2FD),
+        100: Color(0xFFBBDEFB),
+        200: Color(0xFF90CAF9),
+        300: Color(0xFF64B5F6),
+        400: Color(0xFF42A5F5),
+        500: Color(
+            0xFF2196F3), // Cette ligne définit la couleur bleue principale
+        600: Color(0xFF1E88E5),
+        700: Color(0xFF1976D2),
+        800: Color(0xFF1565C0),
+        900: Color(0xFF0D47A1),
       }),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(

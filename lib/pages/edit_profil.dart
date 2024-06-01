@@ -6,7 +6,6 @@ import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 import 'package:mobile_payement_app/theme/color.dart';
 
-
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
@@ -26,9 +25,9 @@ class _EditProfileState extends State<EditProfile> {
     if (response.error == null) {
       setState(() {
         user = response.data as Account;
-        nameController = user!.name ?? '';
-        emailController = user!.email ?? '';
-        phoneNumberController = user!.phoneNumber ?? '';
+        nameController = user?.name ?? '';
+        emailController = user?.email ?? '';
+        phoneNumberController = user?.phoneNumber ?? '';
       });
     } else if (response.error == unauthorized) {
       logout().then((value) => {
@@ -115,7 +114,7 @@ class _EditProfileState extends State<EditProfile> {
       ),
       child: ListTile(
         title: Text(title),
-        subtitle: Text(subtitle!),
+        subtitle: Text(subtitle ?? 'Non disponible'), // Ajouter une valeur par défaut
         leading: Icon(iconData),
         trailing: IconButton(
           onPressed: onEditPressed,
@@ -132,7 +131,7 @@ class _EditProfileState extends State<EditProfile> {
     void editName() async {
       int id = await getUserId();
 
-      ApiResponse response = await updateName( nameController.text,id);
+      ApiResponse response = await updateName(nameController.text, id);
 
       if (response.error == null) {
         // ignore: use_build_context_synchronously
@@ -163,35 +162,33 @@ class _EditProfileState extends State<EditProfile> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-              const Text('Modifier',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 20),
-              TextField(
-                controller:
-                    nameController, // Assigner le contrôleur au champ de texte
-                decoration: const InputDecoration(labelText: 'Nouvelle valeur'),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.green,
-                  minimumSize: const Size(100, 0),
+                const Text('Modifier',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                TextField(
+                  controller:
+                      nameController, // Assigner le contrôleur au champ de texte
+                  decoration: const InputDecoration(labelText: 'Nouvelle valeur'),
                 ),
-                onPressed: () {
-                  editName();
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'Valider',
-                  style: TextStyle(color: white),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    backgroundColor: Colors.green,
+                    minimumSize: const Size(100, 0),
+                  ),
+                  onPressed: () {
+                    editName();
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Valider',
+                    style: TextStyle(color: white),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          
-          ),   
-          
         );
       },
     );
@@ -203,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
     void editEmail() async {
       int id = await getUserId();
 
-      ApiResponse response = await updateEmail(emailController.text,id);
+      ApiResponse response = await updateEmail(emailController.text, id);
 
       if (response.error == null) {
         // ignore: use_build_context_synchronously
@@ -251,8 +248,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   onPressed: () {
                     editEmail();
-                    Navigator.pop(
-                        context); // Fermer la page d'édition après validation
+                    Navigator.pop(context); // Fermer la page d'édition après validation
                   },
                   child: const Text(
                     'Valider',
@@ -274,7 +270,7 @@ class _EditProfileState extends State<EditProfile> {
       int id = await getUserId();
 
       ApiResponse response =
-          await updatePhoneNumber( phoneNumberController.text,id);
+          await updatePhoneNumber(phoneNumberController.text, id);
 
       if (response.error == null) {
         // ignore: use_build_context_synchronously
@@ -322,8 +318,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   onPressed: () {
                     editPhoneNumber();
-                    Navigator.pop(
-                        context); // Fermer la page d'édition après validation
+                    Navigator.pop(context); // Fermer la page d'édition après validation
                   },
                   child: const Text(
                     'Valider',
@@ -338,7 +333,6 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-
   void showEditPasswordForm() {
     TextEditingController currentPasswordController = TextEditingController();
     TextEditingController newPasswordController = TextEditingController();
@@ -349,11 +343,11 @@ class _EditProfileState extends State<EditProfile> {
       int id = await getUserId();
 
       ApiResponse response = await updatePassword(
-        
-          currentPasswordController.text,
-          newPasswordController.text,
-          newPasswordConfirmationController.text,
-            id,);
+        currentPasswordController.text,
+        newPasswordController.text,
+        newPasswordConfirmationController.text,
+        id,
+      );
 
       if (response.error == null) {
         // ignore: use_build_context_synchronously
@@ -413,8 +407,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   onPressed: () {
                     editPassword();
-                    Navigator.pop(
-                        context); // Fermer la page d'édition après validation
+                    Navigator.pop(context); // Fermer la page d'édition après validation
                   },
                   child: const Text(
                     'Valider',

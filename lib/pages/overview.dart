@@ -4,10 +4,11 @@ import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/models/api_response.dart';
 import 'package:mobile_payement_app/models/transaction.dart';
 import 'package:mobile_payement_app/pages/deposit.dart';
+import 'package:mobile_payement_app/pages/retrait.dart';
 import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/pages/transaction_history.dart';
 import 'package:mobile_payement_app/pages/transfert.dart';
-import 'package:mobile_payement_app/pages/withdraw.dart';
+// import 'package:mobile_payement_app/pages/withdraw.dart';
 import 'package:mobile_payement_app/services/account_service.dart';
 import 'package:mobile_payement_app/services/transactions_service.dart';
 
@@ -84,14 +85,14 @@ class BalanceContainer extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
       color: Theme.of(context).brightness == Brightness.dark
-          ? Colors.grey[800]
-          : Colors.blue[200],
+          ? Colors.blue[900]
+          : Colors.green[800],
       child: Center(
         child: Text(
           ' Balance : $balance ',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyLarge!.color,
-            fontSize: 50,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -131,7 +132,7 @@ class ButtonRow extends StatelessWidget {
           label: 'Retrait',
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const Withdrawal()),
+              MaterialPageRoute(builder: (context) => const RetraitPage()),
             );
           },
         ),

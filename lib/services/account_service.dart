@@ -226,23 +226,46 @@ Future<ApiResponse> updatePassword(String currentPassword, String newPassword,
   return apiResponse;
 }
 
- Future<String> makeFedaDeposit(double amount) async {
-      String token = await getToken();
 
-    final response = await http.post(Uri.parse(fedaTransferURL),headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    }, body: {
-      'amount': amount.toString(),
-    });
+
+Future<Map<String, dynamic>> createTransaction(double amount) async {
+  try {
+    String token = await getToken();
+
+    final response = await http.post(
+      Uri.parse(fedaTransferURL),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: {
+        'amount': amount.toString(),
+      },
+    );
 
     if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      return jsonResponse['url'];
+      // Conversion de la réponse JSON en Map<String, dynamic>
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      // Récupération du token et de l'URL depuis la réponse
+      final Map<String, dynamic> tokenInfo = responseData['token'];
+      final String token = tokenInfo['token'];
+      final String url = tokenInfo['url'];
+
+      // Retour du token et de l'URL sous forme de Map
+      return {'token': token, 'url': url};
     } else {
-      throw Exception('Echec');
+      // Gérer les cas d'erreur
+      throw Exception(
+          'Erreur lors de la création de la transaction : ${response.statusCode}');
     }
+  } catch (e) {
+    // Gérer les exceptions
+    throw Exception('Erreur lors de la création de la transaction : $e');
+  }
 }
+
+
 
 Future<ApiResponse> makeDeposit(double amount) async {
   ApiResponse apiResponse = ApiResponse();
@@ -252,7 +275,7 @@ Future<ApiResponse> makeDeposit(double amount) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount':amount.toString(),
+      'amount': amount.toString(),
     });
 
     // Handle response status code
@@ -275,6 +298,7 @@ Future<ApiResponse> makeDeposit(double amount) async {
   return apiResponse;
 }
 
+
 Future<ApiResponse> makeWithdrawal(double amount) async {
   ApiResponse apiResponse = ApiResponse();
   try {
@@ -283,7 +307,7 @@ Future<ApiResponse> makeWithdrawal(double amount) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount':amount.toString(),
+      'amount': amount.toString(),
     });
 
     // Handle response status code
@@ -314,7 +338,7 @@ Future<ApiResponse> transferMoney(double amount, String recipientEmail) async {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token'
     }, body: {
-      'amount':amount.toString(),
+      'amount': amount.toString(),
       'recipient_email': recipientEmail,
     });
 
