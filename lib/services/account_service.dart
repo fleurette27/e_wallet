@@ -96,36 +96,6 @@ Future<ApiResponse> login(String email, String password) async {
   return apiResponse;
 }
 
-Future<Map<String, dynamic>> requestPasswordReset(String email) async {
-  final response = await http.post(
-    Uri.parse(forgotPasswordURL),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'email': email,
-    }),
-  );
-
-  return jsonDecode(response.body);
-}
-
-Future<Map<String, dynamic>> resetPassword(String token, String password, 
-String passwordConfirmation) async {
-  final response = await http.post(
-    Uri.parse(resetPasswordURL),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'token': token,
-      'password': password,
-      'password_confirmation': passwordConfirmation,
-    }),
-  );
-  return jsonDecode(response.body);
-}
-
 Future<ApiResponse> getUserDetail() async {
   ApiResponse apiResponse = ApiResponse();
   try {

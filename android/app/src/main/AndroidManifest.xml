@@ -20,8 +20,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http" android:host="127.0.0.1" />
-                <!-- <data android:scheme="https" android:host="localhost" /> -->
+                <data android:scheme="http" android:host="localhost" android:pathPrefix="/reset-password" />                <!-- <data android:scheme="https" android:host="localhost" /> -->
             </intent-filter>
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
