@@ -237,7 +237,7 @@ class _DepositState extends State<Deposit> {
                               amount: double.parse(_amountController.text),
                               redirecturl: '/home',
                               trans_key: randomString,
-                              callback_info: '{"status"}',
+                              callback_info: '{"status"}',//je ne suis pas sure si c'est la bonne pratique pour recuperer le status de la transaction, normalement après la recuperation du statut de la transaction,si c'est un succes on fait appel a la methode makeDeposit(montant)pour enregistrer la transaction .
                             ),
                           ),
                         );
@@ -249,7 +249,6 @@ class _DepositState extends State<Deposit> {
               ),
             ),
           ),
-        
         ],
       ),
     );

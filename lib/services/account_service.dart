@@ -5,19 +5,19 @@ import 'package:mobile_payement_app/models/api_response.dart';
 import 'package:mobile_payement_app/models/account.dart';
 import 'package:mobile_payement_app/constant.dart';
 
-Future<ApiResponse> register(String name, String email, String password,
-    String phoneNumber, DateTime dob) async {
+Future<ApiResponse> register(String name, String surname, String email,
+    String password, String phoneNumber) async {
   ApiResponse apiResponse = ApiResponse();
   try {
     final response = await http.post(Uri.parse(registerURL), headers: {
       'Accept': 'application/json'
     }, body: {
       'name': name,
+      'surname': surname,
       'email': email,
       'password': password,
       'password_confirmation': password,
       'phoneNumber': phoneNumber,
-      'dob': dob.toString(),
     });
 
     switch (response.statusCode) {
@@ -38,6 +38,33 @@ Future<ApiResponse> register(String name, String email, String password,
   }
   return apiResponse;
 }
+
+ Future<Map<String, dynamic>> verifyOtp(int userId, int otp) async {
+    final response = await http.post(
+      Uri.parse(verifOtpUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'user_id': userId,
+        'otp': otp,
+      }),
+    );
+    return jsonDecode(response.body);
+  }
+
+ Future<Map<String, dynamic>> resendOtp(int userId) async {
+    final response = await http.post(
+      Uri.parse(resetOtpUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'user_id': userId,
+      }),
+    );
+    return jsonDecode(response.body);
+  }
 
 Future<ApiResponse> login(String email, String password) async {
   ApiResponse apiResponse = ApiResponse();
@@ -67,6 +94,36 @@ Future<ApiResponse> login(String email, String password) async {
   }
 
   return apiResponse;
+}
+
+Future<Map<String, dynamic>> requestPasswordReset(String email) async {
+  final response = await http.post(
+    Uri.parse(forgotPasswordURL),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email': email,
+    }),
+  );
+
+  return jsonDecode(response.body);
+}
+
+Future<Map<String, dynamic>> resetPassword(String token, String password, 
+String passwordConfirmation) async {
+  final response = await http.post(
+    Uri.parse(resetPasswordURL),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'token': token,
+      'password': password,
+      'password_confirmation': passwordConfirmation,
+    }),
+  );
+  return jsonDecode(response.body);
 }
 
 Future<ApiResponse> getUserDetail() async {
@@ -227,46 +284,6 @@ Future<ApiResponse> updatePassword(String currentPassword, String newPassword,
 }
 
 
-
-Future<Map<String, dynamic>> createTransaction(double amount) async {
-  try {
-    String token = await getToken();
-
-    final response = await http.post(
-      Uri.parse(fedaTransferURL),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: {
-        'amount': amount.toString(),
-      },
-    );
-
-    if (response.statusCode == 200) {
-      // Conversion de la réponse JSON en Map<String, dynamic>
-      final Map<String, dynamic> responseData = json.decode(response.body);
-
-      // Récupération du token et de l'URL depuis la réponse
-      final Map<String, dynamic> tokenInfo = responseData['token'];
-      final String token = tokenInfo['token'];
-      final String url = tokenInfo['url'];
-
-      // Retour du token et de l'URL sous forme de Map
-      return {'token': token, 'url': url};
-    } else {
-      // Gérer les cas d'erreur
-      throw Exception(
-          'Erreur lors de la création de la transaction : ${response.statusCode}');
-    }
-  } catch (e) {
-    // Gérer les exceptions
-    throw Exception('Erreur lors de la création de la transaction : $e');
-  }
-}
-
-
-
 Future<ApiResponse> makeDeposit(double amount) async {
   ApiResponse apiResponse = ApiResponse();
   try {
@@ -297,7 +314,6 @@ Future<ApiResponse> makeDeposit(double amount) async {
   }
   return apiResponse;
 }
-
 
 Future<ApiResponse> makeWithdrawal(double amount) async {
   ApiResponse apiResponse = ApiResponse();

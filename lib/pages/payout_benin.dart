@@ -1,5 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
+//Payout de feexpay au benin
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -9,7 +8,7 @@ import 'dart:convert';
 import 'package:mobile_payement_app/services/account_service.dart';
 
 class PayoutBeninFeexpay extends StatefulWidget {
-  const PayoutBeninFeexpay({Key? key}) : super(key: key);
+  const PayoutBeninFeexpay({super.key});
 
   @override
   State<PayoutBeninFeexpay> createState() => _PayoutBeninFeexpayState();

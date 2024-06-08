@@ -1,9 +1,10 @@
 const String baseURL = 'http://10.0.2.2:8000/api';
 // const String baseURL = 'http://127.0.0.1:8000/api';
 
-
 const String loginURL = '$baseURL/login';
 const String registerURL = '$baseURL/register';
+const String verifOtpUrl = '$baseURL/verify-otp';
+const String resetOtpUrl = '$baseURL/resend-otp';
 const String logoutURL = '$baseURL/logout';
 const String userURL = '$baseURL/user';
 const String updateNameURL = '$baseURL/user/name';
@@ -16,8 +17,11 @@ const String depositURL = '$baseURL/depot';
 const String withdrawalURL = '$baseURL/retrait';
 const String transferURL = '$baseURL/transfert';
 const String fedaTransferURL = '$baseURL/feda/depot';
+const String forgotPasswordURL = '$baseURL/forgot-password';
+const String resetPasswordURL = '$baseURL/reset-password';
 
 // ----- Errors -----
 const String serverError = 'Erreur du serveur';
 const String unauthorized = 'Non autorisé';
-const String somethingWentWrong = 'Quelque chose s\'est mal passé, veuillez réessayer!';
+const String somethingWentWrong =
+    'Quelque chose s\'est mal passé, veuillez réessayer!';

@@ -26,9 +26,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int page = 0;
   final List<Widget> _pages = [
-    const Overview(), //vue d'ensemble
+    const Overview(), //vue d'ensemble,page d'accueil
     const Deposit(), //depot
-    const RetraitPage(), //retrait
+    const RetraitPage(), //retrait en fonction du pays car feexpay propose deux pays(benin,togo)
     const Transfer(), //transfert
     const Convert(), //convertisseur
   ];
@@ -88,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: _pages[page],
       endDrawer: getDrawer(),
+      body: _pages[page],
       bottomNavigationBar: CurvedNavigationBar(
         items: const [
           Icon(LineIcons.home),

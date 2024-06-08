@@ -18,7 +18,7 @@ class RetraitPage extends StatelessWidget {
             },
           ),
         ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -32,8 +32,8 @@ class RetraitPage extends StatelessWidget {
             ),
             Image.asset(
               'assets/images/Flag_of_Benin.svg.png',
-              width: 100,
-              height: 100,
+              width: 70,
+              height: 70,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -47,7 +47,7 @@ class RetraitPage extends StatelessWidget {
               },
               child: const Text('Bénin'),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
@@ -58,8 +58,8 @@ class RetraitPage extends StatelessWidget {
             ),
             Image.asset(
               'assets/images/Flag_of_Togo.svg.png',
-              width: 100,
-              height: 100,
+              width: 70,
+              height: 70,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
