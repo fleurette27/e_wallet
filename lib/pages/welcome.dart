@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_payement_app/pages/login.dart';
-import 'package:mobile_payement_app/pages/sign_up.dart';
+// import 'package:mobile_payement_app/pages/sign_up.dart';
 import 'package:mobile_payement_app/theme/color.dart';
 
 class Welcome extends StatefulWidget {
@@ -60,7 +60,7 @@ class _WelcomeState extends State<Welcome> {
                   children: [
                     OutlinedButton(
                       onPressed: () {
-                        // Action lorsque le premier bouton est appuyé
+                        // Action lorsque le bouton est appuyé
                         Navigator.push(
                           context,
                           MaterialPageRoute(

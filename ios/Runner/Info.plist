@@ -6,12 +6,17 @@
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>myapp</string>
+					<string>http</string>
 				</array>
+				<key>CFBundleURLName</key>
+				<string>127.0.0.1</string>
 			</dict>
 		</array>
+
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>

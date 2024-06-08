@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import '../constant.dart';
 
-
 class PasswordResetPage extends StatefulWidget {
   final String token;
 
@@ -29,8 +28,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
     });
 
     final response = await http.post(
-      Uri.parse(
-         resetPasswordURL), // Remplacez par votre URL
+      Uri.parse(resetPasswordURL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -52,10 +50,14 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
       );
       Navigator.pushNamed(context, '/login');
     } else {
+      final dynamic responseData = jsonDecode(response.body);
+      String errorMessage =
+          'Erreur lors de la réinitialisation du mot de passe';
+      if (responseData.containsKey('message')) {
+        errorMessage = responseData['message'];
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content:
-                Text('Erreur lors de la réinitialisation du mot de passe')),
+        SnackBar(content: Text(errorMessage)),
       );
     }
   }

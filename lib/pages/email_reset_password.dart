@@ -24,7 +24,7 @@ class _EmailResetPageState extends State<EmailResetPage> {
     });
 
     final response = await http.post(
-      Uri.parse(forgotPasswordURL), // Remplacez par votre URL
+      Uri.parse(forgotPasswordURL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -43,8 +43,14 @@ class _EmailResetPageState extends State<EmailResetPage> {
         SnackBar(content: Text(responseData['message'])),
       );
     } else {
+      final dynamic responseData = jsonDecode(response.body);
+      String errorMessage =
+          'Erreur lors de l\'envoi du lien de réinitialisation';
+      if (responseData.containsKey('message')) {
+        errorMessage = responseData['message'];
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erreur lors de l\'envoi du lien de réinitialisation')),
+        SnackBar(content: Text(errorMessage)),
       );
     }
   }

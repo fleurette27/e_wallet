@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:get/get.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,7 +59,9 @@ class _AppState extends State<App> {
           if (token != null) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PasswordResetPage(token: token)),
+              MaterialPageRoute(
+                builder: (context) => PasswordResetPage(token: token),
+              ),
             );
           }
         }
@@ -86,7 +89,7 @@ class _AppState extends State<App> {
         '/edit': (context) => const EditProfile(),
         '/transactions': (context) => const TransactionHistory(),
         '/email-reset': (context) => const EmailResetPage(),
-        '/password-reset': (context) => const PasswordResetPage(token: ''),
+        '/reset-password': (context) => const PasswordResetPage(token: ''),
       },
       title: 'SeedPay',
       theme: AppTheme.lightTheme,
