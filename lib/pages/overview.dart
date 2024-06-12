@@ -237,7 +237,7 @@ class TransactionList extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return const Center(
-              child: Text("Échec du chargement des transactions"));
+              child: Text("Échec du chargement des transactions ou Aucune transaction trouvée"));
         } else {
           List<Transaction> transactions = (snapshot.data as List<dynamic>)
               .map((transactionJson) => Transaction.fromJson(transactionJson))
