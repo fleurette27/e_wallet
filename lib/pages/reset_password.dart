@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../constant.dart';
 
 class PasswordResetPage extends StatefulWidget {
@@ -90,6 +89,12 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _resetPassword,
+                     style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.blue[900]
+                              : Colors.green[800],
+                    ),
                     child: const Text('Réinitialiser le mot de passe'),
                   ),
           ],

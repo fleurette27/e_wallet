@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AboutScreen extends StatefulWidget {
-  const AboutScreen({Key? key});
+  const AboutScreen({super.key});
 
   @override
   State<AboutScreen> createState() => _AboutScreenState();

@@ -1,5 +1,7 @@
 //payout de feexpay au togo
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';

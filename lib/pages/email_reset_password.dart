@@ -76,6 +76,12 @@ class _EmailResetPageState extends State<EmailResetPage> {
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _requestPasswordReset,
+                     style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.blue[900]
+                              : Colors.green[800],
+                    ),
                     child: const Text('Recevoir le lien de réinitialisation'),
                   ),
           ],
